@@ -2,13 +2,21 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-image: url("../src/img/world-map2.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-blend-mode: lighten;
+  overflow-y: auto !important;
+  height: 100vh;
+  position: relative;
 }
 
 .loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 85vh;
+  position: absolute;
+  top: 40vh;
+  left: 40vw;
 }
 
 .wrapper {
@@ -16,6 +24,9 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  left: 2%;
+  right: 2%;
 
   .main {
     display: flex;
@@ -32,7 +43,12 @@ body {
 
     .search,
     .select {
+      background-color: #ffffffa2;
       box-shadow: 0 0 5px 1px #ddd;
+      padding-right: 0;
+      label {
+        font-weight: bold;
+      }
     }
   }
 
@@ -41,13 +57,14 @@ body {
     flex-wrap: wrap;
     font-family: Arial, Helvetica, sans-serif;
     justify-content: center;
-    width: 95%;
+    width: 100%;
     max-width: 1280px;
 
     .country {
       margin: 25px;
       box-shadow: 0 0 5px 1px #ddd;
       width: 270px;
+      background-color: #ffffff94;
 
       img {
         width: 270px;
