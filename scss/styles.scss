@@ -7,7 +7,6 @@ body {
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  background-blend-mode: lighten;
   overflow-y: auto !important;
   height: 100vh;
   position: relative;
@@ -118,4 +117,20 @@ body {
       }
     }
   }
+}
+
+.arrow {
+  position: fixed;
+  right: 3%;
+  bottom: 10%;
+  transform: scale(0);
+  transition: bottom 200ms, transform 200ms;
+}
+
+.arrow:hover {
+  bottom: 11%;
+}
+
+.show {
+  transform: scale(1);
 }
