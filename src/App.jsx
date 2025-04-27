@@ -12,21 +12,27 @@ import Button from "@mui/material/Button";
 
 export default function App() {
   const [countries, setCountries] = useState([]);
+  const [originalCountries, setOriginalCountries] = useState([])
   const [input, setInput] = useState("");
-  const [region, setRegion] = useState("");
+  const [region, setRegion] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
   const [scrollPos, setScrollPos] = useState(0);
+  const [sortBy, setSortBy] = useState("Population")
 
   useEffect(() => {
     getCountries();
   }, []);
 
   useEffect(() => {
+      handleSort();
+  }, [sortBy])
+
+  useEffect(() => {
     addEventListener("scroll", handleScroll);
     return () => {
       removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [scrollPos]);
 
   const getCountries = async () => {
     const url =
@@ -34,23 +40,37 @@ export default function App() {
     const response = await axios.get(url);
     const data = Object.values(response.data);
     setCountries(data);
+    setOriginalCountries(data)
     setIsLoading(false);
   };
 
   const filteredData = countries.filter((item) => {
-    if (input === "" && region === "") {
-      return item;
-    } else if (input === "" && region === "All") {
+    if (input === "" && region === "All") {
       return item;
     } else {
       return (
-        (input === "" && region && item.region === region) ||
+        ((input === "" && region) && (item.region === region)) ||
         ((item.region === region || region === "All") &&
           (item.name.toLowerCase().includes(input) ||
             item.capital.toLowerCase().includes(input)))
       );
     }
   });
+
+  const handleSort = () => {
+    if(sortBy === "Population") {
+      setCountries([...originalCountries])
+      return;
+    }
+
+    const data = [...countries]
+    if(sortBy === "Low to High") {
+      data.sort((a,b) => a.population - b.population)
+    } else if (sortBy === "High to Low") {
+      data.sort((a,b) => b.population - a.population)
+    }
+    setCountries(data)
+  }
 
   const handleScroll = () => {
     const position = window.pageYOffset;
@@ -68,7 +88,7 @@ export default function App() {
               fullWidth
               label="Search for..."
               value={input}
-              onChange={(event) => setInput(event.target.value)}
+              onChange={(e) => setInput(e.target.value)}
             />
           </div>
           <div>
@@ -82,7 +102,7 @@ export default function App() {
                   id="demo-simple-select"
                   value={region}
                   label="Regions"
-                  onChange={(event) => setRegion(event.target.value)}
+                  onChange={(e) => setRegion(e.target.value)}
                 >
                   <MenuItem value="All">All Regions</MenuItem>
                   <MenuItem value="Europe">Europe</MenuItem>
@@ -91,6 +111,25 @@ export default function App() {
                   <MenuItem value="Americas">America</MenuItem>
                   <MenuItem value="Oceania">Oceania</MenuItem>
                   <MenuItem value="Antarctic">Antarctic</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+
+            <Box sx={{ minWidth: 120 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+                <Select
+                  className="select"
+                  style={{ width: "200px" }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={sortBy}
+                  label="Sort by"
+                  onChange={(e) => setSortBy(e.target.value)}
+                >
+                  <MenuItem value="Population">Population</MenuItem>
+                  <MenuItem value="Low to High">Low to High</MenuItem>
+                  <MenuItem value="High to Low">High to Low</MenuItem>
                 </Select>
               </FormControl>
             </Box>

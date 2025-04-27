@@ -38,6 +38,11 @@ body {
       max-width: 400px;
       min-width: 300px;
       width: 30vw;
+      height: fit-content;
+    }
+
+    .select {
+      margin-bottom: 15px;
     }
 
     .search,
@@ -85,6 +90,22 @@ body {
   }
 }
 
+.arrow {
+  position: fixed;
+  right: 3%;
+  bottom: 10%;
+  transform: scale(0);
+  transition: bottom 200ms, transform 200ms;
+}
+
+.arrow:hover {
+  bottom: 11%;
+}
+
+.show {
+  transform: scale(1);
+}
+
 @media (max-width: 688px) {
   .wrapper {
     .main {
@@ -117,20 +138,4 @@ body {
       }
     }
   }
-}
-
-.arrow {
-  position: fixed;
-  right: 3%;
-  bottom: 10%;
-  transform: scale(0);
-  transition: bottom 200ms, transform 200ms;
-}
-
-.arrow:hover {
-  bottom: 11%;
-}
-
-.show {
-  transform: scale(1);
 }
