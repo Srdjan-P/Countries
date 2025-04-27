@@ -40,13 +40,14 @@ export default function App() {
   const filteredData = countries.filter((item) => {
     if (input === "" && region === "") {
       return item;
-    } else if (input === "" && region) {
-      return item.region === region;
+    } else if (input === "" && region === "All") {
+      return item;
     } else {
       return (
-        item.region === region &&
-        (item.name.toLowerCase().includes(input) ||
-          item.capital.toLowerCase().includes(input))
+        (input === "" && region && item.region === region) ||
+        ((item.region === region || region === "All") &&
+          (item.name.toLowerCase().includes(input) ||
+            item.capital.toLowerCase().includes(input)))
       );
     }
   });
@@ -83,6 +84,7 @@ export default function App() {
                   label="Regions"
                   onChange={(event) => setRegion(event.target.value)}
                 >
+                  <MenuItem value="All">All Regions</MenuItem>
                   <MenuItem value="Europe">Europe</MenuItem>
                   <MenuItem value="Asia">Asia</MenuItem>
                   <MenuItem value="Africa">Africa</MenuItem>
